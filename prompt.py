@@ -28,18 +28,3 @@ Provide a single integer from 0 to 10 to reflect your judgment of the answer's c
 
 # Strict Output format example
 4"""
-
-
-CAUSAL_AGENT_TEMPLATE = """You are an AI agent designed to complete the global instruction. You will be given the global instruction and your previous actions. Your task is to complete the global instruction based on your previous actions.
-
-# Input
-Global Instruction:
-```
-{ginstruction}
-```
-
-Previous Actions:
-```
-{history}
-```
-"""

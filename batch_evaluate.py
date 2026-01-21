@@ -56,7 +56,7 @@ if __name__ == '__main__':
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
 
     # read instruct.json
-    instruct_file = './data/veriGUI.json'
+    instruct_file = './data/data-20260121.json'
     _veriGUI = json.load(open(instruct_file, 'r', encoding='utf-8'))
     veriGUI = {}
     for item in _veriGUI:

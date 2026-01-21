@@ -28,6 +28,7 @@
 
 ## 🌟 Updates
 
+- `[Jan 21, 2026]` Fixed and updated data: 658 659 662 665 683 687 698 701 703 743 744 750 V3_80 V2_12 V5_61 V6_20
 - `[Oct 23, 2025]` 🔥 We have released the updated 302 web-based task trajectories!
 - `[Jul 21, 2025]` 🔥 We have released the first batch of 130 web-based task trajectories!
 
@@ -74,31 +75,40 @@ The benchmark consists of 302 tasks across five real-world domains, each with a 
 ## 🚀 Installation
 
 ```bash
-# Only for evaluating
-pip install openai tqdm
+# For evaluation scripts
+pip install openai requests tqdm
 
-# Run agents
+# For agent examples (optional)
 pip install openai tqdm camel-ai[all] browser-use
 ```
 
 ## 🤖 Running Agents
 
-We provide some examples of agents under the `agents` directory. You can run these agents by executing the following command:
+We provide some example agents under the `agents` directory. These scripts expect you to configure API keys and input data paths (`data/original-xxx.json`) inside the script before running.
 
 ```shell
 python agents/some_agent.py
 ```
 
+
 ## 📊 Evaluation
 
-The dataset of VeriWeb is located at [data](data). The format of the dataset is described in detail in the following sections.
+The dataset of VeriWeb is located at [data](data). Example files:
+
+- `data/original-20260121.json`: original data
+- `data/data-20260121.json`: global tasks
+- `data/data-only-sub1-20260121.json`: only-subtask-1 tasks
+- `data/data-with-sub1-result-20260121.json`: tasks with subtask-1 results
+
+
+Each item for `data-xxx.json` uses the following format:
 
 ```json
 [
   {
     "id": "1",              // index id
     "name": "V1_3",         // name of the task
-    "type": "global",       // type of the task, global or causal
+    "type": "global",       // type of the task, global or only_sub1 or with_sub1_result
     "instruction": "xxxxx", // instruction for the task
     "answer": "xxxxx",      // expected answer for the task, in JSON format
   },
@@ -113,7 +123,7 @@ The evaluation script `evaluate.py` can be used to evaluate the performance of a
   {
     "id": "1",              // index id
     "name": "V1_3",         // name of the task
-    "type": "global",       // type of the task, global or causal
+    "type": "global",       // type of the task, global or only_sub1 or with_sub1_result
     "instruction": "xxxxx", // instruction for the task
     "answer": "xxxxx",      // expected answer for the task, in JSON format
     "prediction": "xxxxx",  // agent's predicted result
@@ -126,7 +136,7 @@ The evaluation script `evaluate.py` can be used to evaluate the performance of a
 With this file, you can run the evaluation script to get the performance of the agent:
 
 ```shell
-python evaluate.py --input_file veriWeb_prediction.json --output_file output.json
+python evaluate.py --input_file prediction.json --output_file output.json --base_url YOUR_BASE_URL --api_key YOUR_API_KEY --model_version o3
 ```
 
 Then, you can use `calc_avg.py` to calculate the average score of the evaluation results:
@@ -135,25 +145,36 @@ Then, you can use `calc_avg.py` to calculate the average score of the evaluation
 python calc_avg.py --input_file output.json
 ```
 
+To evaluate all files in `predictions/` at once:
+
+```shell
+python batch_evaluate.py --base_url YOUR_BASE_URL --api_key YOUR_API_KEY --model_version o3
+```
+
 ## 🗂️ Project Structure
 
 The directory structure of the project is defined as follows:
 
 ```
-agent-workflow-devkit/
+VeriWeb/
 ├── agents/                 # Agent implementations
-│   └── deepresearch.py     # Deepresearch agent example
-│   └── search.py           # Search engine agent example
 │   └── browseruse.py       # Browser-use agent example
+│   └── deepresearch.py     # Deepresearch agent example
 │   └── owl.py              # Multi-agent system example
 ├── data/                   # Dataset files
-│   └── data.json           # Cleaned data
-│   └── original.json       # Original data
+│   └── data-20260121.json
+│   └── data-only-sub1-20260121.json
+│   └── data-with-sub1-result-20260121.json
+│   └── original-20260121.json
 ├── evaluated/              # Evaluation results
 ├── predictions/            # Model predictions
 ├── evaluate.py             # Evaluation script
 ├── batch_evaluate.py       # Batch evaluation
+├── benchmark_construction.py # Benchmark construction helpers
 ├── calc_avg.py             # Calculate averages
+├── category.json           # Category mapping for analysis
+├── images/                 # Figures for README/paper
+├── prompt.py               # Scoring prompt template
 └── utils.py                # Utility functions
 ```
 
@@ -198,4 +219,3 @@ We thank all contributors who have helped make VeriWeb possible. Special thanks 
 ## 📄 License
 
 This project is licensed under the Apache 2.0 License.
-

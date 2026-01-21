@@ -49,9 +49,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Evaluate model performance.')
     parser.add_argument('--input_file', type=str, required=True, help='Path to the input file containing evaluation data')
     parser.add_argument('--output_file', type=str, required=True, help='Path to the output file for results')
-    parser.add_argument('--base_url', type=str, required=False, default='http://35.220.164.252:3888/v1')
-    parser.add_argument('--api_key', type=str, required=False, default='sk-xxxx')
-    parser.add_argument('--model_version', type=str, required=False, default='gpt-4.1')
+    parser.add_argument('--base_url', type=str, required=False, default='')
+    parser.add_argument('--api_key', type=str, required=False, default='')
+    parser.add_argument('--model_version', type=str, required=False, default='o3')
     args = parser.parse_args()
 
     client = OpenAI(base_url=args.base_url, api_key=args.api_key)
