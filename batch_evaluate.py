@@ -60,8 +60,6 @@ if __name__ == '__main__':
     _veriGUI = json.load(open(instruct_file, 'r', encoding='utf-8'))
     veriGUI = {}
     for item in _veriGUI:
-        if item['type'] != "global":
-            continue
         name = item['name']
         instruction = item['instruction']
         answer = item['answer']

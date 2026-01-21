@@ -33,9 +33,6 @@ if __name__ == '__main__':
         score = datum.get("score", None)
         nstep = datum.get("nsteps", None)
 
-        if data_type != "global":
-            continue
-
         scores[name] = score
         cat_scores[q_type][name] = score
 
